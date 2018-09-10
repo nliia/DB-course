@@ -21,7 +21,7 @@ import java.sql.Types;
 /**
  * @author lnurullina
  */
-public abstract class JsonType implements UserType{
+public abstract class UserJsonType implements UserType{
     @Override
     public int[] sqlTypes() {
         return new int[]{Types.JAVA_OBJECT};
