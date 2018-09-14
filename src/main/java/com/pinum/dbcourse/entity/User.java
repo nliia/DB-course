@@ -1,48 +1,69 @@
 package com.pinum.dbcourse.entity;
 
-import com.pinum.dbcourse.entity.jsonmodels.UserInfo;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.UUID;
 
 /**
  * @author lnurullina
  */
-@Entity
-@Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    private UUID id;
+    private String name;
+    private String surname;
+    private String address;
 
-    private Long braceletId;
-
-    private UserInfo userInfo;
-
-    public Long getUserId() {
-        return userId;
+    public User() {
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public User(String name, String surname, String address) {
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
     }
 
-    public Long getBraceletId() {
-        return braceletId;
+    public User(UUID id, String name, String surname, String address) {
+        this(name, surname, address);
+        this.id = id;
     }
 
-    public void setBraceletId(Long braceletId) {
-        this.braceletId = braceletId;
+    public UUID getId() {
+        return id;
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }
