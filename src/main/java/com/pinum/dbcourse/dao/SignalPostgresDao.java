@@ -15,10 +15,9 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public class SignalPostgresDao implements Dao<Signal, UUID> {
+public class SignalPostgresDao implements Dao<Signal, String> {
 
     private static final String SIGNAL_INSERT = "insert into signal(id, signal) values (?, ?::jsonb)";
     private static final String SIGNAL_FIND = "select id, signal from signal where id = ?";
@@ -28,7 +27,7 @@ public class SignalPostgresDao implements Dao<Signal, UUID> {
     private JdbcTemplate jdbc;
     
     @Override
-    public <S extends Signal> UUID save(S signal) {
+    public <S extends Signal> String save(S signal) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.setDateFormat(new StdDateFormat());
@@ -53,7 +52,7 @@ public class SignalPostgresDao implements Dao<Signal, UUID> {
     }
 
     @Override
-    public Signal find(UUID uuid) {
+    public Signal find(String uuid) {
         return this.jdbc.queryForObject(SIGNAL_FIND, new Object[]{uuid}, new SignalMapper());
     }
 
@@ -63,7 +62,7 @@ public class SignalPostgresDao implements Dao<Signal, UUID> {
     }
 
     @Override
-    public void delete(UUID uuid) {
+    public void delete(String uuid) {
 
     }
 
@@ -80,7 +79,7 @@ public class SignalPostgresDao implements Dao<Signal, UUID> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            signal.setId((UUID) rs.getObject("id"));
+            signal.setId(rs.getString("id"));
             signal.setSignalInfo(signalInfo);
             return signal;
         }

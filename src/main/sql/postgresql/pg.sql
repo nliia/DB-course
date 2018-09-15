@@ -8,6 +8,6 @@ create table if not exists users (
 );
 
 create table if not exists signal (
-  id UUID primary key default gen_random_uuid(),
+  id varchar primary key,
   signal jsonb
 );

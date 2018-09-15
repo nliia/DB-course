@@ -37,13 +37,16 @@ public class UserService {
         List<User> users = userPostgresDao.findAll();
         List<Signal> signals = new ArrayList<>();
         while (k < numUsers && users.size() > 0) {
+            StringBuilder stringBuilder = new StringBuilder();
             User remove = users.remove(faker.random().nextInt(users.size()));
+            stringBuilder.append(remove.getId()).append(":");
             Instant now = Instant.now();
             long seconds = durationInThePast.getSeconds();
             Instant rndTime = now.minus(faker.random().nextLong(seconds), ChronoUnit.SECONDS);
-            SignalInfo signalInfo = new SignalInfo(faker.random().nextDouble() * 180 - 90,
-                    faker.random().nextDouble() * 360 - 180, Date.from(rndTime));
-            Signal signal = new Signal(remove.getId(), signalInfo);
+            stringBuilder.append(Date.from(rndTime).getTime());
+            SignalInfo signalInfo = new SignalInfo(remove.getId(), Date.from(rndTime),
+                    faker.random().nextDouble() * 180 - 90, faker.random().nextDouble() * 360 - 180);
+            Signal signal = new Signal(stringBuilder.toString(), signalInfo);
             signalPostgresDao.save(signal);
             signals.add(signal);
             k++;
