@@ -45,7 +45,7 @@ public class UserDaoTest {
 
     @Test
     public void testSaveSignal() {
-        userService.generateSignals(Duration.ofMinutes(30), 30);
+        userService.generateSignals(Duration.ofMinutes(30), 100);
     }
 
     @Test
