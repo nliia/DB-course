@@ -1,13 +1,13 @@
 create extension if not exists pgcrypto;
 
-create table if not exists users (
-  id UUID primary key default gen_random_uuid(),
+create table users (
+  id UUID primary key,
   name varchar,
   surname varchar,
   address varchar
 );
 
-create table if not exists signal (
+create table signal (
   id varchar primary key,
   signal jsonb
 );
@@ -15,3 +15,10 @@ create table if not exists signal (
 create index signal_hash_index
   on signal
   using hash (id);
+-- //cassandra
+CREATE TYPE signal (date timestamp, latitude double, longitude double);
+
+CREATE TABLE signal (
+  id text primary key,
+  signal map<UUID, FROZEN<signal>>
+);
