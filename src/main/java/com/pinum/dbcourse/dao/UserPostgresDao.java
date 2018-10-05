@@ -12,10 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
 @Component
-public class UserPostgresDao implements Dao<User, UUID> {
+public class UserPostgresDao implements Dao<User, Long> {
 
     public static final String USER_INSERT = "INSERT INTO users (name, surname, address) VALUES (?, ?, ?)";
     public static final String USER_UPDATE = "UPDATE users SET name = ?, surname = ?, address = ? where id = ?";
@@ -27,7 +26,7 @@ public class UserPostgresDao implements Dao<User, UUID> {
     private JdbcTemplate jdbc;
 
     @Override
-    public <S extends User> UUID save(S user) {
+    public <S extends User> Long save(S user) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         this.jdbc.update(con -> {
             PreparedStatement ps = con.prepareStatement(USER_INSERT, new String[]{"id"});
@@ -36,7 +35,7 @@ public class UserPostgresDao implements Dao<User, UUID> {
             ps.setString(3, user.getAddress());
             return ps;
         }, keyHolder);
-        UUID generatedKey = (UUID) keyHolder.getKeys().get("id");
+        Long generatedKey = (Long) keyHolder.getKeys().get("id");
         user.setId(generatedKey);
         return generatedKey;
     }
@@ -64,7 +63,7 @@ public class UserPostgresDao implements Dao<User, UUID> {
     }
 
     @Override
-    public User find(UUID id) {
+    public User find(Long id) {
         return this.jdbc.queryForObject(USER_SELECT, new Object[]{id}, new UserMapper());
     }
 
@@ -74,7 +73,7 @@ public class UserPostgresDao implements Dao<User, UUID> {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         this.jdbc.update(USER_DELETE, id);
     }
 
@@ -82,7 +81,7 @@ public class UserPostgresDao implements Dao<User, UUID> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
-            user.setId((UUID) rs.getObject("id"));
+            user.setId((Long) rs.getObject("id"));
             user.setName(rs.getString("name"));
             user.setSurname(rs.getString("surname"));
             user.setAddress(rs.getString("address"));

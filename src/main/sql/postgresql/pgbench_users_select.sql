@@ -3,8 +3,3 @@
 begin;
   select * from users where id = :id;
 end;
-
-
---
--- select md5(random() :: text);
--- select md5(random() :: text), uuid_generate_v4();

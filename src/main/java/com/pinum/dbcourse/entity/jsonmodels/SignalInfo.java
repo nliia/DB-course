@@ -2,10 +2,9 @@ package com.pinum.dbcourse.entity.jsonmodels;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
 
 public class SignalInfo implements Serializable {
-    private UUID userId;
+    private Long userId;
     private Date time;
     private double latitude;
     private double longitude;
@@ -25,7 +24,7 @@ public class SignalInfo implements Serializable {
         this.time = time;
     }
 
-    public SignalInfo(UUID userId, Date time, double latitude, double longitude) {
+    public SignalInfo(Long userId, Date time, double latitude, double longitude) {
         this.userId = userId;
         this.time = time;
         this.latitude = latitude;
@@ -56,11 +55,11 @@ public class SignalInfo implements Serializable {
         this.time = time;
     }
 
-    public UUID getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(UUID userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

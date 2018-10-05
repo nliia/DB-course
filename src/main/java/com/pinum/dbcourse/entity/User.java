@@ -1,12 +1,10 @@
 package com.pinum.dbcourse.entity;
 
-import java.util.UUID;
-
 /**
  * @author lnurullina
  */
 public class User {
-    private UUID id;
+    private Long id;
     private String name;
     private String surname;
     private String address;
@@ -20,16 +18,16 @@ public class User {
         this.address = address;
     }
 
-    public User(UUID id, String name, String surname, String address) {
+    public User(Long id, String name, String surname, String address) {
         this(name, surname, address);
         this.id = id;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
