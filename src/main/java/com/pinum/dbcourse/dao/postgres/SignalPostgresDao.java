@@ -1,9 +1,10 @@
-package com.pinum.dbcourse.dao;
+package com.pinum.dbcourse.dao.postgres;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.pinum.dbcourse.dao.Dao;
 import com.pinum.dbcourse.entity.Signal;
 import com.pinum.dbcourse.entity.jsonmodels.SignalInfo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.pinum.dbcourse;
 
-import com.pinum.dbcourse.dao.SignalPostgresDao;
-import com.pinum.dbcourse.dao.UserPostgresDao;
+import com.pinum.dbcourse.dao.postgres.SignalPostgresDao;
+import com.pinum.dbcourse.dao.postgres.UserPostgresDao;
 import com.pinum.dbcourse.entity.Signal;
 import com.pinum.dbcourse.entity.User;
 import org.junit.Test;

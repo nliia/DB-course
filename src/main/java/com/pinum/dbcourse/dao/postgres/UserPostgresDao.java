@@ -1,5 +1,6 @@
-package com.pinum.dbcourse.dao;
+package com.pinum.dbcourse.dao.postgres;
 
+import com.pinum.dbcourse.dao.Dao;
 import com.pinum.dbcourse.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
