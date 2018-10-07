@@ -1,0 +1,5 @@
+
+Выполнять в Cassandra CQL
+
+create keyspace db_course with replication = {'class':'SimpleStrategy', 'replication_factor':6};
+create table db_course.users (id UUID PRIMARY KEY, name text, surname text, address text);
