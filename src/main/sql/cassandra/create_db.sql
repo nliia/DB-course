@@ -7,6 +7,6 @@ create table db_course.users (id uuid primary key, name text, surname text, addr
 create type db_course.signal (date timestamp, latitude double, longitude double);
 
 create table db_course.signals (
-  id text primary key,
+  id uuid primary key,
   signal map<UUID, FROZEN<signal>>
 );

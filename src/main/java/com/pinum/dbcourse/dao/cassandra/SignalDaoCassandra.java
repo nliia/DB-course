@@ -12,12 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author lnurullina
  */
 @Repository
-public class SignalDaoCassandra implements Dao<Signal, String> {
+public class SignalDaoCassandra implements Dao<Signal, UUID> {
 
     private static final String SIGNAL_INSERT = "insert into signal(id, signal) values (?, ?)";
     private static final String SIGNAL_FIND = "select id, signal from signal where id = ?";
@@ -27,7 +28,7 @@ public class SignalDaoCassandra implements Dao<Signal, String> {
     CassandraConnector cassandraConnector;
 
     @Override
-    public <S extends Signal> String save(S signal) {
+    public <S extends Signal> UUID save(S signal) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.setDateFormat(new StdDateFormat());
@@ -47,7 +48,7 @@ public class SignalDaoCassandra implements Dao<Signal, String> {
     }
 
     @Override
-    public Signal find(String uuid) {
+    public Signal find(UUID uuid) {
 //        ResultSet rs =  this.cassandraConnector.getSession().execute(SIGNAL_FIND, uuid);
 //        Signal signal = new Signal();
 //        rs.forEach(r ->{signal = new Signal(
@@ -71,7 +72,7 @@ public class SignalDaoCassandra implements Dao<Signal, String> {
     }
 
     @Override
-    public void delete(String s) {
+    public void delete(UUID s) {
 
     }
 
