@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DbCourseApplication {
     public static void main(String[] args) {
         val dataGenerator = new CassandraDataGenerator();
-        dataGenerator.generateSignals(1);
+        dataGenerator.generateSignals(1000);
+        dataGenerator.disconnect();
     }
 }

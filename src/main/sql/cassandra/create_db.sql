@@ -8,5 +8,7 @@ create type db_course.signal (date timestamp, latitude double, longitude double)
 
 create table db_course.signals (
   id uuid primary key,
-  signal map<UUID, FROZEN<signal>>
+  signal FROZEN<signal>
 );
+
+create table db_course.frequency(geo_name text primary key, frequency counter);

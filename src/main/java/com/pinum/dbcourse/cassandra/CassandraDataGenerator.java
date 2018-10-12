@@ -2,7 +2,6 @@ package com.pinum.dbcourse.cassandra;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
-import com.pinum.dbcourse.entity.Signal;
 import com.pinum.dbcourse.entity.jsonmodels.SignalInfo;
 import lombok.val;
 
@@ -13,14 +12,21 @@ import java.util.UUID;
 public class CassandraDataGenerator {
 
     private static final Random random = new Random();
-    private static final String SIGNAL_INSERT = "insert into db_course.signals(id, signal) values (?, ?)";
+    private static final String SIGNAL_INSERT = "insert into db_course.signals(id, signal) values (?, {date:" +
+            " ?, latitude: ?, longitude: ?})";
+    private static final String INCREATE_EAST_COUNTER = "update db_course.frequency set frequency = frequency + 1 where geo_name = 'EAST'";
+    private static final String INCREATE_WEST_COUNTER = "update db_course.frequency set frequency = frequency + 1 where geo_name = 'WEST'";
+    //    private ObjectMapper objectMapper;
     private InetSocketAddress address;
     private Cluster cluster;
     private Session session;
 
     public CassandraDataGenerator() {
-        this.address = new InetSocketAddress("127.0.0.1", 9042);
-        this.cluster = Cluster.builder()
+//        objectMapper = new ObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        objectMapper.setDateFormat(new StdDateFormat());
+        address = new InetSocketAddress("127.0.0.1", 9042);
+        cluster = Cluster.builder()
                 .addContactPointsWithPorts(address)
                 .addContactPointsWithPorts()
                 .withoutJMXReporting()
@@ -29,18 +35,28 @@ public class CassandraDataGenerator {
     }
 
     public void generateSignals(final int signalsCount) {
-        val preparedStatement = session.prepare(SIGNAL_INSERT);
+//        val preparedStatement = session.prepare(SIGNAL_INSERT);
         int count = 0;
         while (count != signalsCount) {
-            int longitude = random.nextInt(361) - 180;
-            int latitude = random.nextInt(361) - 180;
-            val signalInfo = new SignalInfo(latitude, longitude);
-            val signal = new Signal(UUID.randomUUID(), signalInfo);
-            val boundStatement = preparedStatement.bind()
-                    .setUUID("id", UUID.randomUUID())
-//                    .setString("signal", "{"+UUID)
-            session.execute(boundStatement);
+            int randomLongitude = random.nextInt(361) - 180;
+            int randomLatitude = random.nextInt(361) - 180;
+            val signalInfo = new SignalInfo(randomLatitude, randomLongitude);
+            session.execute(SIGNAL_INSERT, UUID.randomUUID(), signalInfo.getTime(), signalInfo.getLatitude(),
+                    signalInfo.getLongitude());
+//            val boundStatement = preparedStatement.bind()
+//                    .setUUID("id", UUID.randomUUID())
+//                    .setString("signal", stringSignalInfo);
+//            session.execute(boundStatement);
             count++;
+            if (randomLatitude <= 0) {
+                session.execute(INCREATE_WEST_COUNTER);
+            } else {
+                session.execute(INCREATE_EAST_COUNTER);
+            }
         }
+    }
+
+    public void disconnect() {
+        this.cluster.close();
     }
 }
