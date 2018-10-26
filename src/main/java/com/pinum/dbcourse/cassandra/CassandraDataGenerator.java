@@ -12,8 +12,8 @@ import java.util.UUID;
 public class CassandraDataGenerator {
 
     private static final Random random = new Random();
-    private static final String SIGNAL_INSERT = "insert into db_course.signals(id, signal) values (?, {date:" +
-            " ?, latitude: ?, longitude: ?})";
+    private static final String SIGNAL_INSERT = "insert into db_course.signals(id, date, latitude, longitude) values (?, ?," +
+            " ?,?)";
     private static final String INCREATE_EAST_COUNTER = "update db_course.frequency set frequency = frequency + 1 where geo_name = 'EAST'";
     private static final String INCREATE_WEST_COUNTER = "update db_course.frequency set frequency = frequency + 1 where geo_name = 'WEST'";
     private InetSocketAddress address;
